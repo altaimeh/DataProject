@@ -386,6 +386,26 @@ html {
 
 
 /*These styles are to make the page responsive*/
+
+/* Added responsive design for pixel width exceeding 1500px - Tasdyque*/
+@media (min-width: 1500px) {
+  .about-us-img-wrapper {
+    grid-row: 3 / -1;
+  }
+
+  .card {
+    width: 25%;
+    margin: 5%;
+  }
+
+  .contact-wrapper {
+    width: 80%;
+    height: 65rem;
+  }
+
+}
+
+
 @media (max-width: 1500px) {
   .about-us-img-wrapper {
     grid-row: 3 / -1;
