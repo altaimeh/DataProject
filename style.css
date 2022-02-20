@@ -264,7 +264,7 @@ html {
 /*This is the team section representing us*/
 
 .team {
-  display: flex;
+  display: flex; 
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -275,8 +275,9 @@ html {
 .cards-wrapper {
   display: flex;
   justify-content: space-evenly;
-  margin-top: 8rem;
+  margin-top: 5rem;
   width: 100%;
+  
 }
 
 .card {
@@ -442,7 +443,7 @@ html {
     font-size: 3rem;
   }
 
-  .service:nth-child(1) {
+  /*.service:nth-child(1) {
     grid-column: 3 / 7;
   }
 
@@ -464,7 +465,7 @@ html {
 
   .service:nth-child(6) {
     grid-column: 11 / 15;
-  }
+  }*/
 }
 
 @media (max-width: 1300px) {
@@ -512,7 +513,7 @@ html {
     font-size: 1.5rem;
   }
 
-  .services {
+  /*.services {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -521,7 +522,7 @@ html {
   .service {
     width: 40rem;
     margin-bottom: 6rem;
-  }
+  }*/
 
   .about-us-img-wrapper {
     width: 40rem;
@@ -590,8 +591,8 @@ html {
     right: 38rem;
   }
 
-  .service {
+  /*.service {
     width: 30rem;
-  }
+  }*/
 
 }
