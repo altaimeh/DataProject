@@ -49,7 +49,9 @@ header, form {
 
 form input, form button {
     padding: 0.5rem;
-    font-size: 2rem;
+    font-size: 1.2rem;
+    margin-left: 2px;
+    margin-right: 2px;
     border: none;
     background: gainsboro;
 }

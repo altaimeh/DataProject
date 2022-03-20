@@ -14,86 +14,121 @@ window.onload = () => {
       document.querySelector("html").style.scrollBehavior = "unset";
     }, 1000);
   });*/
-//Selectors
-const todoInput = document.querySelector('.todo-input');
-const todoButton = document.querySelector('.todo-button');
-const todoList = document.querySelector('.todo-list');
+//Selectors for todo inputs
+const taskManagerInput = document.querySelector('.todo-input');
+
+/*const taskManagerInputCategory = document.querySelector('.todo-input-category');
+const taskManagerInputDate = document.querySelector('.todo-input-date');
+const taskManagerInputPriority = document.querySelector('.todo-input-priority');*/
+
+const taskManagerButton = document.querySelector('.todo-button');
+
+/*const taskManagerButtonCategory = document.querySelector('.todo-button-category');
+const taskManagerButtonDate = document.querySelector('.todo-button-date');
+const taskManagerButtonPriority = document.querySelector('.todo-button-priority');*/
+
+const taskManagerList = document.querySelector('.todo-list');
 const filterOption = document.querySelector('.filter-todo');
-//Event Listeners
-document.addEventListener('DOMContentLoaded', getTodos);
-todoButton.addEventListener('click', addTodo);
-todoList.addEventListener('click', deleteCheck);
-filterOption.addEventListener('click', filterTodo);
-//functions
-function addTodo(event) {
-    //Prevent form from auto submitting
-    event.preventDefault();
-    //todo DIV
-    const todoDiv = document.createElement('div');
-    todoDiv.classList.add("todo");
-    //create Li
-    const newTodo = document.createElement('li');
-    newTodo.innerText = todoInput.value;
-    newTodo.classList.add('todo-item');
-    todoDiv.appendChild(newTodo);
-    //add todo to local storage
-    saveLocalTodos(todoInput.value);
-    //checked button
-    const completedButton = document.createElement('button');
-    completedButton.innerHTML = '<i class="fas fa-check"></i>';
-    completedButton.classList.add("complete-btn");
-    todoDiv.appendChild(completedButton);
-    //delete button
-    const trashButton = document.createElement('button');
-    trashButton.innerHTML = '<i class="fas fa-trash"></i>';
-    trashButton.classList.add("trash-btn");
-    todoDiv.appendChild(trashButton);
-    //append to list
-    todoList.appendChild(todoDiv);
-    //clear todo input value
-    todoInput.value = "";
+//Event Listeners for task manager
+document.addEventListener('DOMContentLoaded', taskManagerGetToDoList);
+taskManagerButton.addEventListener('click', taskManagerAddToDoList);
+
+/*taskManagerButtonCategory.addEventListener('click', taskManagerAddToDoList);
+taskManagerButtonDate.addEventListener('click', taskManagerAddToDoList);
+taskManagerButtonPriority.addEventListener('click', taskManagerAddToDoList);*/
+
+taskManagerList.addEventListener('click', taskManagerDeleteTask);
+filterOption.addEventListener('click', taskManagerFilter);
+//function are below this line
+function taskManagerAddToDoList(inputValue) {
+    //This prevents the task manager form from automatically submitting values
+    inputValue.preventDefault();
+    //This creates the todo DIV for the task manager
+    const taskManagerToDoQuery = document.createElement('div');
+    taskManagerToDoQuery.classList.add("todo");
+    //This creates the list
+    const taskManagerToDoQueryNew = document.createElement('li');
+    taskManagerToDoQueryNew.innerText = taskManagerInput.value;
+
+    //Dont delete these comments this is for the the additional categories
+
+    /*taskManagerToDoQueryNew.innerText = taskManagerInputCategory.value;
+    taskManagerToDoQueryNew.innerText = taskManagerInputDate.value;
+    taskManagerToDoQueryNew.innerText = taskManagerInputPriority.value;*/
+
+    taskManagerToDoQueryNew.classList.add('todo-item');
+    taskManagerToDoQuery.appendChild(taskManagerToDoQueryNew);
+    //This adds todo tasks to the local storage be viewed
+    taskManagerSaveTasks(taskManagerInput.value);
+
+    //Dont delete these comments this is for the the additional categories
+
+    /*taskManagerSaveTasks(taskManagerInputCategory.value);
+    taskManagerSaveTasks(taskManagerInputDate.value);
+    taskManagerSaveTasks(taskManagerInputPriority.value);*/
+
+    //This is the checkmark button
+    const taskManagerFinishedButton = document.createElement('button');
+    taskManagerFinishedButton.innerHTML = '<i class="fas fa-check"></i>';
+    taskManagerFinishedButton.classList.add("complete-btn");
+    taskManagerToDoQuery.appendChild(taskManagerFinishedButton);
+    //This is the delete button
+    const taskManagerDeleteButton = document.createElement('button');
+    taskManagerDeleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+    taskManagerDeleteButton.classList.add("trash-btn");
+    taskManagerToDoQuery.appendChild(taskManagerDeleteButton);
+    //This allows the task manager to append to list
+    taskManagerList.appendChild(taskManagerToDoQuery);
+    //This allows the task manager to clear todo input values
+    taskManagerInput.value = "";
+
+    //Dont delete these comments this is for the the additional categories
+
+    /*taskManagerInputCategory.value = "";
+    taskManagerInputDate.value = "";
+    taskManagerInputPriority.value = "";*/
 }
 
-function deleteCheck(e) {
-    const item = e.target;
-    //delete
-    if(item.classList[0] === "trash-btn") {
-        const todo = item.parentElement;
-        todo.classList.add("fall");
-        removeLocalTodos(todo);
-        todo.addEventListener("transitionend", function() {
-            todo.remove();
+function taskManagerDeleteTask(e) {
+    const taskManagerItemQuery = e.target;
+    //This deletes the task
+    if(taskManagerItemQuery.classList[0] === "trash-btn") {
+        const todoPlaceQuery = taskManagerItemQuery.parentElement;
+        todoPlaceQuery.classList.add("fall");
+        removeTasksWithThis(todoPlaceQuery);
+        todoPlaceQuery.addEventListener("transitionend", function() {
+            todoPlaceQuery.remove();
         });
     }
 
-    //check mark
-    if(item.classList[0] === "complete-btn") {
-        const todo = item.parentElement;
-        todo.classList.toggle("completed");
+    //This is the check mark functionality to add to the completed section
+    if(taskManagerItemQuery.classList[0] === "complete-btn") {
+        const todoPlaceQueryComplete = taskManagerItemQuery.parentElement;
+        todoPlaceQueryComplete.classList.toggle("completed");
     }
 }
 
-function filterTodo(e) {
-    const todos = todoList.childNodes;
-    todos.forEach(function(todo) {
+function taskManagerFilter(e) {
+    const todoFilterCheck = taskManagerList.childNodes;
+    todoFilterCheck.forEach(function(todoFilterOption) {
         switch(e.target.value) {
             case "all":
-                todo.style.display = "flex";
+                todoFilterOption.style.display = "flex";
                 break;
             case "completed":
-                if(todo.classList.contains("completed")) {
-                    todo.style.display = "flex";
+                if(todoFilterOption.classList.contains("completed")) {
+                    todoFilterOption.style.display = "flex";
                 }
                 else {
-                    todo.style.display = "none";
+                    todoFilterOption.style.display = "none";
                 }
                 break;
             case "uncompleted":
-                if(!todo.classList.contains("completed")) {
-                    todo.style.display = "flex";
+                if(!todoFilterOption.classList.contains("completed")) {
+                    todoFilterOption.style.display = "flex";
                 }
                 else {
-                    todo.style.display = "none";
+                    todoFilterOption.style.display = "none";
                 }
                 break;
         }
@@ -101,59 +136,59 @@ function filterTodo(e) {
 }
 
 
-function saveLocalTodos(todo) {
-    let todos;
+function taskManagerSaveTasks(todoSaveInput) {
+    let saveTasksToDo;
     if(localStorage.getItem('todos') === null) {
-        todos = [];
+        saveTasksToDo = [];
     }
     else {
-        todos = JSON.parse(localStorage.getItem('todos'));
+        saveTasksToDo = JSON.parse(localStorage.getItem('todos'));
     }
-    todos.push(todo);
-    localStorage.setItem('todos', JSON.stringify(todos));
+    saveTasksToDo.push(todoSaveInput);
+    localStorage.setItem('todos', JSON.stringify(saveTasksToDo));
 }
 
-function getTodos() {
-    let todos;
+function taskManagerGetToDoList() {
+    let getToDoTask;
     if(localStorage.getItem('todos') === null) {
-        todos = [];
+        getToDoTask = [];
     }
     else {
-        todos = JSON.parse(localStorage.getItem('todos'));
+        getToDoTask = JSON.parse(localStorage.getItem('todos'));
     }
-    todos.forEach(function(todo) {
-        const todoDiv = document.createElement('div');
-        todoDiv.classList.add("todo");
-        //create Li
-        const newTodo = document.createElement('li');
-        newTodo.innerText = todo;
-        newTodo.classList.add('todo-item');
-        todoDiv.appendChild(newTodo);
+    getToDoTask.forEach(function(todoGetCheck) {
+        const taskManagerToDoQuery = document.createElement('div');
+        taskManagerToDoQuery.classList.add("todo");
+        //This creates the list for the task manager
+        const taskManagerToDoQueryNew = document.createElement('li');
+        taskManagerToDoQueryNew.innerText = todoGetCheck;
+        taskManagerToDoQueryNew.classList.add('todo-item');
+        taskManagerToDoQuery.appendChild(taskManagerToDoQueryNew);
         
-        //checked button
-        const completedButton = document.createElement('button');
-        completedButton.innerHTML = '<i class="fas fa-check"></i>';
-        completedButton.classList.add("complete-btn");
-        todoDiv.appendChild(completedButton);
-        //delete button
-        const trashButton = document.createElement('button');
-        trashButton.innerHTML = '<i class="fas fa-trash"></i>';
-        trashButton.classList.add("trash-btn");
-        todoDiv.appendChild(trashButton);
-        //append to list
-        todoList.appendChild(todoDiv);
+        //This is the checkmark button
+        const taskManagerFinishedButton = document.createElement('button');
+        taskManagerFinishedButton.innerHTML = '<i class="fas fa-check"></i>';
+        taskManagerFinishedButton.classList.add("complete-btn");
+        taskManagerToDoQuery.appendChild(taskManagerFinishedButton);
+        //This is the delete button
+        const taskManagerDeleteButton = document.createElement('button');
+        taskManagerDeleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+        taskManagerDeleteButton.classList.add("trash-btn");
+        taskManagerToDoQuery.appendChild(taskManagerDeleteButton);
+        //This allows the task manager to append to list
+        taskManagerList.appendChild(taskManagerToDoQuery);
     });
 }
 
-function removeLocalTodos(todo) {
-    let todos;
+function removeTasksWithThis(inputRemove) {
+    let removeTask;
     if(localStorage.getItem('todos') === null) {
-        todos = [];
+        removeTask = [];
     }
     else {
-        todos = JSON.parse(localStorage.getItem('todos'));
+        removeTask = JSON.parse(localStorage.getItem('todos'));
     }
-    const todoIndex = todo.children[0].innerText;
-    todos.splice(todos.indexOf(todoIndex), 1);
-    localStorage.setItem("todos", JSON.stringify(todos));
+    const todoIndex = inputRemove.children[0].innerText;
+    removeTask.splice(removeTask.indexOf(todoIndex), 1);
+    localStorage.setItem("todos", JSON.stringify(removeTask));
 } 
