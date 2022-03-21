@@ -17,11 +17,21 @@ window.onload = () => {
 //Selectors for todo inputs
 const taskManagerInput = document.querySelector('.todo-input');
 
+// Muneeb Khan
+const taskManagerInputCategory = document.querySelector('.todo-input-category');
+const taskManagerInputDate = document.querySelector('.todo-input-date');
+const taskManagerInputPriority = document.querySelector('.todo-input-priority');
+
 /*const taskManagerInputCategory = document.querySelector('.todo-input-category');
 const taskManagerInputDate = document.querySelector('.todo-input-date');
 const taskManagerInputPriority = document.querySelector('.todo-input-priority');*/
 
 const taskManagerButton = document.querySelector('.todo-button');
+
+// Muneeb Khan
+const taskManagerButtonCategory = document.querySelector('.todo-button-category');
+const taskManagerButtonDate = document.querySelector('.todo-button-date');
+const taskManagerButtonPriority = document.querySelector('.todo-button-priority');
 
 /*const taskManagerButtonCategory = document.querySelector('.todo-button-category');
 const taskManagerButtonDate = document.querySelector('.todo-button-date');
@@ -32,6 +42,11 @@ const filterOption = document.querySelector('.filter-todo');
 //Event Listeners for task manager
 document.addEventListener('DOMContentLoaded', taskManagerGetToDoList);
 taskManagerButton.addEventListener('click', taskManagerAddToDoList);
+
+// Muneeb Khan
+taskManagerButtonCategory.addEventListener('click' ,taskManagerAddToDoList);
+taskManagerButtonDate.addEventListener('click', taskManagerAddToDoList);
+taskManagerButtonPriority.addEventListener('click',taskManagerAddToDoList);
 
 /*taskManagerButtonCategory.addEventListener('click', taskManagerAddToDoList);
 taskManagerButtonDate.addEventListener('click', taskManagerAddToDoList);
@@ -50,6 +65,11 @@ function taskManagerAddToDoList(inputValue) {
     const taskManagerToDoQueryNew = document.createElement('li');
     taskManagerToDoQueryNew.innerText = taskManagerInput.value;
 
+    // Muneeb Khan
+    taskManagerToDoQueryNew.innerText = taskManagerInputCategory.value;
+    taskManagerToDoQueryNew.innerText = taskManagerInputDate.value;
+    taskManagerToDoQueryNew.innerText = taskManagerInputPriority.value;
+
     //Dont delete these comments this is for the the additional categories
 
     /*taskManagerToDoQueryNew.innerText = taskManagerInputCategory.value;
@@ -62,6 +82,11 @@ function taskManagerAddToDoList(inputValue) {
     taskManagerSaveTasks(taskManagerInput.value);
 
     //Dont delete these comments this is for the the additional categories
+
+    // Muneeb Khan
+    taskManagerSaveTasks(taskManagerInputCategory.value);
+    taskManagerSaveTasks(taskManagerInputDate.value);
+    taskManagerSaveTasks(taskManagerInputPriority.value);
 
     /*taskManagerSaveTasks(taskManagerInputCategory.value);
     taskManagerSaveTasks(taskManagerInputDate.value);
@@ -83,6 +108,11 @@ function taskManagerAddToDoList(inputValue) {
     taskManagerInput.value = "";
 
     //Dont delete these comments this is for the the additional categories
+
+    // Muneeb Khan
+    taskManagerInputCategory.value = "";
+    taskManagerInputDate.value = "";
+    taskManagerInputPriority.value = "";
 
     /*taskManagerInputCategory.value = "";
     taskManagerInputDate.value = "";
