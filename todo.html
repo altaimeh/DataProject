@@ -14,6 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Josefin+Slab:ital,wght@0,400;0,600;1,300;1,400;1,600&family=Muli:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
       rel="stylesheet"
     />
+    <!-- table added here -->
     <link type="text/css" rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -75,53 +76,53 @@
         </div>
     </form>
 
+    <!-- Add table dynamically -->
     <body>
         <table>
-            <tr>
+        <tr>
+            <td>
+                <!-- formSubmit function is implemented on todo.js file -->
+                <form autocomplete="off" onsubmit="formSubmit()">
+                    <!-- Tasks entered for to-do list -->
+                    <div>
+                        <label for="description">Task Description</label>
+                        <input type="text" name="description" id="description">
+                    </div>
+                    <div>
+                        <label for="category">Task Category</label>
+                        <input type="text" name="category" id="category">
+                    </div>
+                    <div>
+                        <label for="date">Due Date</label>
+                        <input type="date" name="date" id="date">
+                    </div>
+                    <div>
+                        <label for="priority">Priority Level</label>
+                        <input type="number" name="priority" id="priority">
+                    </div>
+                    <!-- Add submit and reset options on table -->
+                    <div class="form_action--button">
+                        <input type="submit" value="Submit">
+                        <input type="reset" value="Reset">
+                    </div>
+                </form>
+
                 <td>
-                    <form autocomplete="off" onsubmit="onFormSubmit()">
-                        <div>
-                            <label for="description">Description</label>
-                            <input type="text" name="description" id="description">
-                        </div>
-                        <div>
-                            <label for="category">Category</label>
-                            <input type="text" name="category" id="category">
-                        </div>
-                        <div>
-                            <label for="date">Date</label>
-                            <input type="number" name="date" id="date">
-                        </div>
-                        <div>
-                            <label for="priority">Priority 1-4</label>
-                            <input type="number" name="priority" id="priority">
-                        </div>
-                        <!-- Helps design form -->
-                        <div class="form-action--button"></div>
-                        <div>
-                            <input type="submit" value="Submit">
-                            <input type="reset" value="Reset">
-                        </div>
-                    </form>
-                    <td>
-                        <table class="list" id="storeList">
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th>Date</th>
-                                    <th>Priority 1-4</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-    
-                            </tbody>
-                        </table>
-                    </td>
+                    <!-- This is where all of the output values will be stored -->
+                  <table class="list" id="listInfo">
+                      <thead>
+                          <tr>
+                             <th>Task Description</th>
+                             <th>Task Category</th> 
+                             <th>Due Date</th> 
+                             <th>Priority Level</th> 
+                          </tr>
+                      </thead>
+                  </table>  
                 </td>
-            </tr>
+            </td>
+        </tr>
         </table>
-        <script type="text/javascript" src="./script.js"></script>
     </body>
     
 
