@@ -50,6 +50,7 @@
             
         </section>
     </div>
+    <!-- original form
     <form>
         <input type="text" placeHolder="Description" class="todo-input">
         <button class="todo-button" type="submit">
@@ -74,7 +75,7 @@
                 <option value="uncompleted">Uncompleted</option>
             </select>
         </div>
-    </form>
+    </form> -->
 
     <!-- Add table dynamically -->
     <body>
@@ -105,6 +106,14 @@
                         <input type="submit" value="Submit">
                         <input type="reset" value="Reset">
                     </div>
+                    <!-- This determines if the task is complete or not complete -->
+                    <div class="form_action--select">
+                        <select name="todos" class="filter-todo">
+                        <option value="all">All</option>
+                        <option value="completed">Completed</option>
+                        <option value="uncompleted">Uncompleted</option>
+                        </select>
+                    </div>
                 </form>
 
                 <td>
@@ -118,11 +127,15 @@
                              <th>Priority Level</th> 
                           </tr>
                       </thead>
+                      <tbody>
+
+                      </tbody>
                   </table>  
                 </td>
             </td>
         </tr>
         </table>
+        <script type="text/javascript" src="./todo.js"></script>
     </body>
     
 

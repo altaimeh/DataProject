@@ -648,8 +648,10 @@ select {
 
   table {
     background-image: url('yellowBackground.jpg');
+    background-size: cover;
     width: 90%;
     margin: 5em auto;
+    margin-bottom: 30em;
   }
 
   table.list {
