@@ -66,9 +66,7 @@ function taskManagerAddToDoList(inputValue) {
     taskManagerToDoQueryNew.innerText = taskManagerInput.value;
 
     // Muneeb Khan
-    taskManagerToDoQueryNew.innerText = taskManagerInputCategory.value;
-    taskManagerToDoQueryNew.innerText = taskManagerInputDate.value;
-    taskManagerToDoQueryNew.innerText = taskManagerInputPriority.value;
+    
 
     //Dont delete these comments this is for the the additional categories
 
@@ -221,6 +219,5 @@ function removeTasksWithThis(inputRemove) {
     const todoIndex = inputRemove.children[0].innerText;
     removeTask.splice(removeTask.indexOf(todoIndex), 1);
     localStorage.setItem("todos", JSON.stringify(removeTask));
-}
+} 
 
-// Functionalities for table
