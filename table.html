@@ -1,65 +1,106 @@
 <!DOCTYPE html>
-<!-- script.js is added here -->
-<html> 
-  <head> 
-    <script src="script.js"></script> 
-    <link type="text/css" rel="tablestylesheet" href="todo.css">
-    <script> 
-    $(function(){
-      $("#includedContent").load("index.html"); 
-    });
-    </script> 
-  </head> 
-  <body> 
-     <div id="includedContent"></div>
-  </body> 
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Page Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="table.css" />
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudfare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                // Add new row
+                $("#add.row").click(function(){
+                    var description = $("#description").val();
+                    var category = $("#category").val();
+                    var date = $("#date").val();
+                    var priority = $("#priority").val();
+                    $(".table tbody tr").last().after(
+                    '<tr class="fadetext">'+
+                            '<td><input type="checkbox" id="select-row"></td>'+
+                            '<td>example</td>'+
+                            '<th>example</th>'+
+                            '<th>example</th>'+
+                            '<th>example</th>'+
+                        '</tr>'
+                    );
+                })
+                // Select all checkbox
+                $("#select-all").click(function(){
+                    var isSelected = $(this).is(":checked");
+                    if(isSelected) {
+                        $(".table tbody tr").each(function(){
+                            $(this).find('input[type="checkbox"]').prop('checked', true);
+                        })
+                    } else {
+                        $(".table tbody tr").each(function(){
+                            $(this).find('input[type="checkbox"]').prop('checked', false);
+                    })
+                }
+                });
+
+                // Remove selected rows
+                $("#remove-row").click(function() {
+                    var isChecked = $(this).find('input[type="checkbox"]').is(":checked");
+                    var tableSize = $(".table tbody tr").length;
+                    if(isChecked == 1) {
+                        alert('All rows cannot be deleted.');
+                    } else if(isChecked) {
+                        $(this).remove();
+                    }
+                });
+            })
+        </script>
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="form-div">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="description" placeholder="Task Description">
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="category" placeholder="Task Category">
+                    </div>
+                    <div class="col-md-8">
+                        <input type="date" class="form-control" id="date" placeholder="Due Date">
+                    </div>
+                    <div class="col-md-8">
+                        <input type="number" class="form-control" id="priority" placeholder="Priority Level">
+                    </div>
+                    <div class="col-md-8" style="text-align: center;">
+                        <button class="todo-button" type="submit" id="add-row">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>All <input type="checkbox" id="select-all"></th>
+                            <th>Task Description</th>
+                            <th>Task Category</th>
+                            <th>Due Date</th>
+                            <th>Priority Level (1-4)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" id="select-row"></td>
+                            <td>example</td>
+                            <th>example</th>
+                            <th>example</th>
+                            <th>example</th>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="remove-row" id="remove-row">Remove Row</button>
+            </div>
+        </div>
+    </body>
 </html>
-
-<body>
-    <table>
-        <tr>
-            <td>
-                <form autocomplete="off" onsubmit="onFormSubmit()">
-                    <div>
-                        <label for="description">Description</label>
-                        <input type="text" name="description" id="description">
-                    </div>
-                    <div>
-                        <label for="category">Category</label>
-                        <input type="text" name="category" id="category">
-                    </div>
-                    <div>
-                        <label for="date">Date</label>
-                        <input type="number" name="date" id="date">
-                    </div>
-                    <div>
-                        <label for="priority">Priority 1-4</label>
-                        <input type="number" name="priority" id="priority">
-                    </div>
-                    <!-- Helps design form -->
-                    <div class="form-action--button"></div>
-                    <div>
-                        <input type="submit" value="Submit">
-                        <input type="reset" value="Reset">
-                    </div>
-                </form>
-                <td>
-                    <table class="list" id="storeList">
-                        <thead>
-                            <tr>
-                                <th>Description</th>
-                                <th>Category</th>
-                                <th>Date</th>
-                                <th>Priority 1-4</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </td>
-            </td>
-        </tr>
-    </table>
-    <script type="text/javascript" src="./script.js"></script>
-</body>

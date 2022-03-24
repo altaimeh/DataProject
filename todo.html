@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To do List</title>
+    <title>To Do List</title>
     <link rel="stylesheet" href="todo.css" />
     <link
       rel="stylesheet"
@@ -14,42 +14,117 @@
       href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Josefin+Slab:ital,wght@0,400;0,600;1,300;1,400;1,600&family=Muli:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudfare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- table added here -->
-    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <link type="text/css" rel="stylesheet" href="todo.css"/>
 </head>
 <body>
     <header>
         <h1>Welcome to Lighting Task Manager! </h1>
     </header>
-    <div class="container">
-        <div class="hamburger-menu">
-            <div class="line line-1"></div>
-            <div class="line line-2"></div>
-            <div class="line line-3"></div>
-            <span>Close</span>
-        </div>
+    <script>
+        $(document).ready(function(){
+            // Add new row
+            $("#add.row").click(function(){
+                var description = $("#description").val();
+                var category = $("#category").val();
+                var date = $("#date").val();
+                var priority = $("#priority").val();
+                $(".table tbody tr").last().after(
+                '<tr class="fadetext">'+
+                        '<td><input type="checkbox" id="select-row"></td>'+
+                        '<td>example</td>'+
+                        '<th>example</th>'+
+                        '<th>example</th>'+
+                        '<th>example</th>'+
+                    '</tr>'
+                );
+            })
+            // Select all checkbox
+            $("#select-all").click(function(){
+                var isSelected = $(this).is(":checked");
+                if(isSelected) {
+                    $(".table tbody tr").each(function(){
+                        $(this).find('input[type="checkbox"]').prop('checked', true);
+                    })
+                } else {
+                    $(".table tbody tr").each(function(){
+                        $(this).find('input[type="checkbox"]').prop('checked', false);
+                })
+            }
+            });
 
-        <section class="sidebar">
-            <ul class="menu">
-            <li class="menu-item">
-                <a href="index.html" class="menu-link" data-content="Home">Home</a>
-            </li>
-            <li class="menu-item">
-                <a href="index.html" class="menu-link" data-content="About Us">About Us</a>
-            </li>
-            <li class="menu-item">
-                <a href="todo.html" class="menu-link" data-content="To do List">To do List</a>
-            </li>
-            <!--<li class="menu-item">
-                <a href="#" class="menu-link" data-content="Pricing">Pricing</a>
-            </li>
-            <li class="menu-item">
-                <a href="#" class="menu-link" data-content="Contact">Contact</a>
-            </li>-->
-            </ul>
-            
-        </section>
+            // Remove selected rows
+            $("#remove-row").click(function() {
+                var isChecked = $(this).find('input[type="checkbox"]').is(":checked");
+                var tableSize = $(".table tbody tr").length;
+                if(isChecked == 1) {
+                    alert('All rows cannot be deleted.');
+                } else if(isChecked) {
+                    $(this).remove();
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+
+        <div class="form-div">
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="description" placeholder="Task Description">
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="category" placeholder="Task Category">
+                </div>
+                <div class="col-md-8">
+                    <input type="date" class="form-control" id="date" placeholder="Due Date">
+                </div>
+                <div class="col-md-8">
+                    <input type="number" class="form-control" id="priority" placeholder="Priority Level">
+                </div>
+                <div class="col-md-8" style="text-align: center;">
+                    <button class="todo-button" type="submit" id="add-row">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>All <input type="checkbox" id="select-all"></th>
+                        <th>Task Description</th>
+                        <th>Task Category</th>
+                        <th>Due Date</th>
+                        <th>Priority Level (1-4)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" id="select-row"></td>
+                        <td>example</td>
+                        <th>example</th>
+                        <th>example</th>
+                        <th>example</th>
+                    </tr>
+                </tbody>
+                <div class="form_action--select">
+                    <select name="todos" class="filter-todo">
+                    <option value="all">All</option>
+                    <option value="completed">Completed</option>
+                    <option value="uncompleted">Uncompleted</option>
+                    </select>
+                </div>
+            </table>
+            <button class="remove-row" id="remove-row">Remove Row</button>
+        </div>
     </div>
+</body>
+</html>
     <!-- original form
     <form>
         <input type="text" placeHolder="Description" class="todo-input">
@@ -76,65 +151,6 @@
             </select>
         </div>
     </form> -->
-
-    <!-- Add table dynamically -->
-    <body>
-        <table>
-        <tr>
-            <td>
-                <!-- formSubmit function is implemented on todo.js file -->
-                <form autocomplete="off" onsubmit="formSubmit()">
-                    <!-- Tasks entered for to-do list -->
-                    <div>
-                        <label for="description">Task Description</label>
-                        <input type="text" name="description" id="description">
-                    </div>
-                    <div>
-                        <label for="category">Task Category</label>
-                        <input type="text" name="category" id="category">
-                    </div>
-                    <div>
-                        <label for="date">Due Date</label>
-                        <input type="date" name="date" id="date">
-                    </div>
-                    <div>
-                        <label for="priority">Priority Level</label>
-                        <input type="number" name="priority" id="priority">
-                    </div>
-                    <!-- Add submit and reset options on table -->
-                    <div class="form_action--button">
-                        <input type="submit" value="Submit">
-                        <input type="reset" value="Reset">
-                    </div>
-                    <!-- This determines if the task is complete or not complete -->
-                    <div class="form_action--select">
-                        <select name="todos" class="filter-todo">
-                        <option value="all">All</option>
-                        <option value="completed">Completed</option>
-                        <option value="uncompleted">Uncompleted</option>
-                        </select>
-                    </div>
-                </form>
-
-                <td>
-                    <!-- This is where all of the output values will be stored -->
-                  <table class="list" id="listInfo">
-                      <thead>
-                          <tr>
-                             <th>Task Description</th>
-                             <th>Task Category</th> 
-                             <th>Due Date</th> 
-                             <th>Priority Level</th> 
-                          </tr>
-                      </thead>
-                      <tbody>
-
-                      </tbody>
-                  </table>  
-                </td>
-            </td>
-        </tr>
-        </table>
         <script type="text/javascript" src="./todo.js"></script>
     </body>
     
