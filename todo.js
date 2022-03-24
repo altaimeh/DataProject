@@ -193,7 +193,7 @@ function removeTasksWithThis(inputRemove) {
     localStorage.setItem("todos", JSON.stringify(removeTask));
 }
 
-// table functionalities
+// Functionalities for table
 var selectRow = null;
 function onFormSubmit() {
     event.preventDefault();
@@ -210,10 +210,10 @@ function onFormSubmit() {
 // Retrieve the data
 function readFormData() {
     var formData = {};
-    formData["productCode"] = document.getElementById("productCode").value;
-    formData["productName"] = document.getElementById("productName").value;
-    formData["qty"] = document.getElementById("qty").value;
-    formData["perPrice"] = document.getElementById("perPrice").value;
+    formData["description"] = document.getElementById("description").value;
+    formData["productName"] = document.getElementById("category").value;
+    formData["qty"] = document.getElementById("date").value;
+    formData["perPrice"] = document.getElementById("priority").value;
     return formData;
 }
 
@@ -222,13 +222,13 @@ function insertNewRecord(data) {
     var table = document.getElementById("storeList").getElementsByTagName('tbody')[0];
     var newRow = table.insertRow(table.length);
     var cell1 = newRow.insertCell(0);
-        cell1.innerHTML = data.productCode;
+        cell1.innerHTML = data.Description;
     var cell2 = newRow.insertCell(1);
-        cell2.innerHTML = data.productName;
+        cell2.innerHTML = data.Category;
     var cell3 = newRow.insertCell(2);
-        cell3.innerHTML = data.qty;
+        cell3.innerHTML = data.Date;
     var cell4 = newRow.insertCell(3);
-        cell4.innerHTML = data.perPrice;
+        cell4.innerHTML = data.Priority;
     var cell5 = newRow.insertCell(4);
         cell5.innerHTML = "<button onClick= 'onEdit(this)'>Edit</button> <button>Delete</button>";
 }
@@ -236,17 +236,17 @@ function insertNewRecord(data) {
 // Edit the data
 function onEdit(td){
     selectedRow = td.parentElement.parentElement;
-    document.getElementById('productCode').value = selectedRow.cells[0].innerHTML;
-    document.getElementById('productName').value = selectedRow.cells[1].innerHTML;
-    document.getElementById('qty').value = selectedRow.cells[2].innerHTML;
-    document.getElementById('perPrice').value = selectedRow.cells[3].innerHTML;
+    document.getElementById('description').value = selectedRow.cells[0].innerHTML;
+    document.getElementById('category').value = selectedRow.cells[1].innerHTML;
+    document.getElementById('date').value = selectedRow.cells[2].innerHTML;
+    document.getElementById('priority').value = selectedRow.cells[3].innerHTML;
 }
 
 function updateRecord(formData) {
-    selectedRow.cells[0].innerHTML = formData.productCode;
-    selectedRow.cells[1].innerHTML = formData.productName;
-    selectedRow.cells[2].innerHTML = formData.qty;
-    selectedRow.cells[3].innerHTML = formData.perPrice;
+    selectedRow.cells[0].innerHTML = formData.Description;
+    selectedRow.cells[1].innerHTML = formData.Category;
+    selectedRow.cells[2].innerHTML = formData.Date;
+    selectedRow.cells[3].innerHTML = formData.Priority;
 }
 
 // Delete the data
@@ -260,8 +260,8 @@ function onDelete(td) {
 
 //Reset the data
 function resetForm() {
-    document.getElementById('productCode').value = ' ';
-    document.getElementById('productName').value = ' ';
-    document.getElementById('qty').value = ' ';
-    document.getElementById('perPrice').value = ' ';
+    document.getElementById('description').value = ' ';
+    document.getElementById('category').value = ' ';
+    document.getElementById('date').value = ' ';
+    document.getElementById('priority').value = ' ';
 }
