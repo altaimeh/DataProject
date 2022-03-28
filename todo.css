@@ -1,6 +1,7 @@
 /* This is for the table */
 h1 {
     color: orange;
+    text-align: center;
 }
 
 body {
@@ -18,6 +19,10 @@ table {
     height: 100%;
     margin: 40px auto;
     flex:auto;
+}
+
+th {
+    font:bold; 
 }
 
 table.list {
