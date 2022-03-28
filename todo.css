@@ -63,6 +63,10 @@ button:hover{
     background: orange ;
 }
 
+button:active{
+    background: blue;
+}
+
 /* For the sidebar */
 /*This is the sidebar menu*/
 .hamburger-menu {
