@@ -191,4 +191,12 @@ function removeTasksWithThis(inputRemove) {
     const todoIndex = inputRemove.children[0].innerText;
     removeTask.splice(removeTask.indexOf(todoIndex), 1);
     localStorage.setItem("todos", JSON.stringify(removeTask));
-} 
+}
+
+const errorMessage = document.getElementById('error');
+form.addEventListener('submit', (e) => {
+let message = []
+if (level.value >= 5 || level.value <= 0) {
+message.push('Priority level has to be between 1-4')
+}
+}) 

@@ -4,88 +4,94 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To do List</title>
     <link rel="stylesheet" href="todo.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Josefin+Slab:ital,wght@0,400;0,600;1,300;1,400;1,600&family=Muli:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
-      rel="stylesheet"
-    />
+    <title>To Do List</title>
 </head>
+
 <body>
     <header>
-        <h1>Welcome to Lighting Task Manager! </h1>
+        <h1>Welcome to Lightning Task Manager! </h1>
     </header>
-    <div class="container">
-        <div class="hamburger-menu">
-            <div class="line line-1"></div>
-            <div class="line line-2"></div>
-            <div class="line line-3"></div>
-            <span>Close</span>
-        </div>
+    <table>
+        <tr>
+            <td>
+                <!-- Add task description, task category, due date, and priority level -->
+                <form autocomplete="off" onsubmit="myFunction()">
+                    <div>
+                        <label for="description">Task Description</label>
+                        <input type="text" name="description" id="description" required
+                        placeholder="Please enter the description (Required)">
+                    </div>
+                    <div>
+                        <label for="category">Task Category</label>
+                        <input type="text" name="category" id="category" optional
+                        placeholder="Please enter the category type (Optional)">
+                    </div>
+                    <div>
+                        <label for="date">Due Date</label>
+                        <input type="date" name="date" id="date" required>
+                    </div>
+                    <div>
+                        <label for="level">Priority Level (1-4)</label>
+                        <input type="number" name="level" id="level" optional
+                        placeholder="Please enter a priority level of 1-4 (Optional)">
+                    </div>
+                    <div>
+                        <label for="status">Status (active or complete) </label>
+                    </div>
+                    <div class="select">
+                        <select name="todos" class="filter-todo">
+                            <option value="all">All</option>
+                            <option value="active">Active</option>
+                            <option value="complete">Complete</option>
+                        </select>
+                    <!-- Add submit options if user wants to finish to do list-->
+                    <div class="form_action--button">
+                        <input type="submit" value="Submit">
+                    </div>         
+                </form>
+                <!-- Add table -->
+                <td>
+                    <!-- Output values will be stored here once form is complete -->
+                    <table class="list" id="storeList">
+                        <thead>
+                            <tr>
+                                <th>Task Description</th>
+                                <th>Task Category</th>
+                                <th>Due Date</th>
+                                <th>Priority Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </td>
+            </td>
+        </tr>
+    </table>
+    <!-- Use script.js file for functions to operate -->
+    <script type="text/javascript" src="./script.js"></script>
 
-        <section class="sidebar">
-            <ul class="menu">
-            <li class="menu-item">
-                <a href="index.html" class="menu-link" data-content="Home">Home</a>
-            </li>
-            <li class="menu-item">
-                <a href="index.html" class="menu-link" data-content="About Us">About Us</a>
-            </li>
-            <li class="menu-item">
-                <a href="todo.html" class="menu-link" data-content="To do List">To do List</a>
-            </li>
-            <!--<li class="menu-item">
-                <a href="#" class="menu-link" data-content="Pricing">Pricing</a>
-            </li>
-            <li class="menu-item">
-                <a href="#" class="menu-link" data-content="Contact">Contact</a>
-            </li>-->
-            </ul>
-            
-        </section>
-    </div>
-    <form>
-        <input type="text" placeHolder="Description" class="todo-input">
-        <button class="todo-button" type="submit">
-            <i class="fas fa-plus-square"></i>
-        </button>
-        <input type="text" placeholder="Category" class="todo-input-category">
-        <button class="todo-button-category" type="submit">
-            <i class="fas fa-plus-square"></i>
-        </button>
-        <input type="date" class="todo-input-date">
-        <button class="todo-button-date" type="submit">
-            <i class="fas fa-plus-square"></i>
-        </button>
-        <input type="number" placeholder="Priority 1-4" class="todo-input-priority">
-        <button class="todo-button-priority" type="submit">
-            <i class="fas fa-plus-square"></i>
-        </button>
-        <div class="select">
-            <select name="todos" class="filter-todo">
-                <option value="all">All</option>
-                <option value="completed">Completed</option>
-                <option value="uncompleted">Uncompleted</option>
-            </select>
-        </div>
-    </form>
-
-    
-
-    <div class="todo-container">
-        <ul class="todo-list">
-            <div class="todo">
-                <!--<li></li>-->
-                <!--<button>delete</button>
-                <button>checked</button>-->
-            </div>
+    <!-- Sidebar menu -->
+    <section class="sidebar">
+        <ul class="menu">
+          <li class="menu-item">
+            <a href="index.html" class="menu-link" data-content="Home">Home</a>
+          </li>
+          <li class="menu-item">
+            <a href="index.html" class="menu-link" data-content="About Us">About Us</a>
+          </li>
+          <li class="menu-item">
+            <a href="todo.html" class="menu-link" data-content="To do List">To do List</a>
+          </li>
+          <!--<li class="menu-item">
+            <a href="#" class="menu-link" data-content="Pricing">Pricing</a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-content="Contact">Contact</a>
+          </li>-->
         </ul>
-    </div>
+      </section>
 
-    <script src="todo.js"></script>
 </body>
 </html>
