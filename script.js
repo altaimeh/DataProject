@@ -31,13 +31,13 @@ function myFunction(e) {
 }
 
 // Function to make priority level between 1-4 
-// const errorMessage = document.getElementById('error');
-// form.addEventListener('submit', (e) => {
-// let message = []
-// if (level.value > 4 || level.value == 0) {
-// message.push('Priority level has to be between 1-4')
-// }
-// }) 
+const errorMessage = document.getElementById('error');
+form.addEventListener('submit', (e) => {
+let message = []
+if (level.value >= 5 || level.value <= 0) {
+message.push('Priority level has to be between 1-4')
+}
+}) 
 
 // Function to store the data
 function readFormData() {
