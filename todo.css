@@ -1,11 +1,25 @@
 /* This is for the table */
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+html {
+  font-size: 62.5%;
+}
+
 h1 {
     color: orange;
     text-align: center;
 }
 
 body {
-    background-image: url('yellowBackground.jpg');
+   /* background-image: url('yellowBackground.jpg'); */
+   background-color: black;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -13,6 +27,7 @@ body {
 
 label, th, td {
     color: orange;
+    font-size:large;
 }
 table {
     width: 100%;
@@ -37,12 +52,17 @@ td {
 }
 
 input[type="text"], input[type="number"], input[type="date"] {
-    width: 85%;
+    width: 100%;
     padding: 10px 15px;
     margin: 10px 0;
     display:list-item;
     border: 1px solid black;
     border-radius: 4px;
+    background-color:orange;
+}
+
+::placeholder{
+  color:black;
 }
 
 input[type="submit"] {
@@ -52,12 +72,12 @@ input[type="submit"] {
     display: inline-block;
     border: none;
     border-radius: 30px;
-    font-size: 1rem;
+    font-size: 1.5rem;
     outline: none;
 }
 
 input[type="submit"]:hover{
-    background: orange;
+    background: gold;
 }
 
 input[type="submit"]:active{
@@ -70,6 +90,11 @@ button:hover{
 
 button:active{
     background: blue;
+}
+
+.filter-todo{
+  font-size:1.5rem;
+  margin-top:3%;
 }
 
 /* For the sidebar */
@@ -190,7 +215,7 @@ button:active{
   .banner {
     position: absolute;
     top: 30%;
-    left: 8%;
+    left: 2%;
   }
   
   .banner h1 {
