@@ -21,13 +21,37 @@ var selectedRow = null
 function myFunction(e) {
 	event.preventDefault();
         var formData = readFormData();
+    
+        //Add Request Query 
+        var query = "request=add&description=" + formData["description"] + "&category=" + formData["category"] +
+           "&date=" + formData["date"] + "&level=" + formData["level"];
+        
+      
         if (selectedRow == null){
+
             insertNewRecord(formData);
-		}
+            //Code to send add task request to database
+            $.get(
+              "databaseOperations.php", 
+              query,
+              function(response) //response from database
+              {
+                alert(response);
+              }
+            );
+		    }
         else {
             updateRecord(formData);
-		}
-        resetForm();    
+            $.get(
+              "databaseOperations.php", 
+              query,
+              function(response) //response from database
+              {
+                alert(response);
+              }
+            );
+	    	}
+            resetForm();    
 }
 
 // Function to make priority level between 1-4 
