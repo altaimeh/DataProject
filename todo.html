@@ -75,8 +75,9 @@
                         <input type="date" name="date" id="date" required>
                     </div>
                     <div>
+                        <!-- restructNumber(this) function ensures the priority level is only 1-4 -->
                         <label for="level">Priority Level (1-4)</label>
-                        <input type="number" name="level" id="level" optional
+                        <input type="text" name="level" id="level" onkeyup="restrictNumber(this)" optional
                         placeholder="Please enter a priority level of 1-4 (Optional)">
                     </div>
                     <div>
