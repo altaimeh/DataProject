@@ -1,6 +1,3 @@
-
-
-
 window.onload = () => {
   setTimeout(() => {
     document.querySelector("body").classList.add("display");
@@ -40,6 +37,7 @@ function myFunction(e) {
               function(response) //response from database
               {
                 alert(response);
+                console.log("task added");
               }
             );
 		    }
@@ -123,4 +121,39 @@ function resetForm() {
   document.getElementById("date").value = '';
   document.getElementById("level").value = '';
   selectedRow = null;
+}
+
+//function to load tasks from database
+function loadTasks(){
+  console.log("loading tasks");
+  
+  //sql query option
+  var query = "request=retrieve";
+
+
+  //array to store array sent from database(to use outside of get function)
+  var tasks;
+
+
+  $.get(
+    "databaseOperations.php", 
+    query,
+    function(response) //response from database
+    {
+        tasks = JSON.parse(response);
+        console.dir(tasks);
+
+        for(let i = 0; i < tasks.length; i++)
+        {
+          insertNewRecord({
+          "description": tasks[i][0],
+          "category": tasks[i][1],
+          "date": new Date(tasks[i][2]),
+          "level": parseInt(tasks[i][3])
+          });
+        }
+    }
+  );
+
+console.log("tasks loaded");
 }

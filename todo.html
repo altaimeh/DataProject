@@ -15,9 +15,14 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous">
     </script>
+
+    <!-- Use script.js file for functions to operate -->
+    <script type="text/javascript" src="./script.js"></script>
+
 </head>
 
-<body>
+
+<body id = "todoBody" onload="loadTasks()">
     <header>
         <h1>Welcome to Lightning Task Manager! </h1>
     </header>
@@ -78,9 +83,7 @@
             </td>
         </tr>
     </table>
-    <!-- Use script.js file for functions to operate -->
-    <script type="text/javascript" src="./script.js"></script>
-
+    
     <!-- Sidebar menu -->
     <section class="sidebar">
         <ul class="menu">
