@@ -55,14 +55,11 @@ function myFunction(e) {
             resetForm();    
 }
 
-// Function to make priority level between 1-4 
-// const errorMessage = document.getElementById('error');
-// form.addEventListener('submit', (e) => {
-// let message = []
-// if (level.value > 4 || level.value == 0) {
-// message.push('Priority level has to be between 1-4')
-// }
-// }) 
+// Function for priority level restriction to range from 1-4
+function restrictNumber(input) {
+  var regularExpression = /[^1-4]/gi;
+  input.value = input.value.replace(regularExpression, "Priority level can only be 1-4!");
+}
 
 // Function to store the data
 function readFormData() {
