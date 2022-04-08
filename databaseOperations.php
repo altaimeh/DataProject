@@ -23,9 +23,24 @@
         else
           echo "Add operation successful.Added: ", 
           $_GET['description'], ".";
-      
-      
+
     break;
+
+
+    case "retrieve":
+      $sql = "SELECT * FROM tasksTable";
+      $response = mysqli_query($connection, $sql);
+      if($response == false)
+        echo "retrieve operation FAILED.";
+      else
+      {
+        $tasks = array();
+        while($task = mysqli_fetch_row($response))
+          $tasks[] = $task;
+        echo json_encode($tasks);
+          
+      }
+      break;
 
     default:
       echo "Error: unknown database request.";

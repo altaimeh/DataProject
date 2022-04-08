@@ -1,6 +1,3 @@
-
-
-
 window.onload = () => {
   setTimeout(() => {
     document.querySelector("body").classList.add("display");
@@ -40,6 +37,7 @@ function myFunction(e) {
               function(response) //response from database
               {
                 alert(response);
+                console.log("task added");
               }
             );
 		    }
@@ -57,14 +55,11 @@ function myFunction(e) {
             resetForm();    
 }
 
-// Function to make priority level between 1-4 
-const errorMessage = document.getElementById('error');
-form.addEventListener('submit', (e) => {
-let message = []
-if (level.value >= 5 || level.value <= 0) {
-message.push('Priority level has to be between 1-4')
+// Function for priority level restriction to range from 1-4
+function restrictNumber(input) {
+  var regularExpression = /[^1-4]/gi;
+  input.value = input.value.replace(regularExpression, "Priority level can only be 1-4!");
 }
-}) 
 
 // Function to store the data
 function readFormData() {
@@ -123,4 +118,39 @@ function resetForm() {
   document.getElementById("date").value = '';
   document.getElementById("level").value = '';
   selectedRow = null;
+}
+
+//function to load tasks from database
+function loadTasks(){
+  console.log("loading tasks");
+  
+  //sql query option
+  var query = "request=retrieve";
+
+
+  //array to store array sent from database(to use outside of get function)
+  var tasks;
+
+
+  $.get(
+    "databaseOperations.php", 
+    query,
+    function(response) //response from database
+    {
+        tasks = JSON.parse(response);
+        console.dir(tasks);
+
+        for(let i = 0; i < tasks.length; i++)
+        {
+          insertNewRecord({
+          "description": tasks[i][0],
+          "category": tasks[i][1],
+          "date": new Date(tasks[i][2]),
+          "level": parseInt(tasks[i][3])
+          });
+        }
+    }
+  );
+
+console.log("tasks loaded");
 }
