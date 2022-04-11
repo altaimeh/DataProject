@@ -1,7 +1,7 @@
 <?php
   $host = "127.0.0.1";
   $user = "root";
-  $password = "----";
+  $password = "-----";
   $db = "tasksDB";
   $connection = mysqli_connect($host, $user, $password, $db);
 
@@ -21,8 +21,23 @@
         if($response== false)
           echo "Add operation FAILED.";
         else
-          echo "Add operation successful.Added: ", 
-          $_GET['description'], ".";
+        {
+          $sql = "SELECT * FROM tasksTable
+          ORDER BY taskID DESC
+          LIMIT 0,1";
+          $response= mysqli_query($connection, $sql);
+          if($response == false)
+          {
+            echo "Add Sucessfull, new addition retrieval FAILED.";
+          }
+          else
+          {
+            $tasks = array();
+            $tasks[] = mysqli_fetch_row($response);
+            echo json_encode($tasks);
+          }
+        }
+          
 
     break;
 
@@ -39,6 +54,17 @@
           $tasks[] = $task;
         echo json_encode($tasks);
           
+      }
+      break;
+
+    case "delete":
+      $sql = "DELETE FROM tasksTable WHERE taskID = '" . $_GET["taskID"] . "'";
+      $response = mysqli_query($connection, $sql);
+      if($response == false)
+        echo "delete operation FAILED.";
+      else
+      {
+        echo "delete operation SUCCESSFUL.";
       }
       break;
 

@@ -28,21 +28,23 @@ function myFunction(e) {
         
       
         if (selectedRow == null){
+          //Code to send add task request to database
+          $.get(
+            "databaseOperations.php", 
+            query,
+            function(response) //response from database
+            {
+              // alert(response[1]);
+              console.log("task added");
+              insertNewRecord(formData,(JSON.parse(response))[0]);
+            }
+          );
 
-            insertNewRecord(formData);
-            //Code to send add task request to database
-            $.get(
-              "databaseOperations.php", 
-              query,
-              function(response) //response from database
-              {
-                alert(response);
-                console.log("task added");
-              }
-            );
 		    }
         else {
             updateRecord(formData);
+
+            //Code to send update task request to database
             $.get(
               "databaseOperations.php", 
               query,
@@ -72,9 +74,10 @@ function readFormData() {
 }
 
 // Function to insert the data
-function insertNewRecord(data) {
+function insertNewRecord(data, id) {
   var table = document.getElementById("storeList").getElementsByTagName('tbody')[0];
   var newRow = table.insertRow(table.length);
+  newRow.setAttribute("id", id)
   cell1 = newRow.insertCell(0);
   cell1.innerHTML = data.description;
   cell2 = newRow.insertCell(1);
@@ -90,7 +93,7 @@ function insertNewRecord(data) {
 //Edit the data
 function onEdit(td) {
   selectedRow = td.parentElement.parentElement;
-  document.getElementById("description").value = selectedRow.cells[0].innerHTML;
+  document.getElementById("description").innerHTML.value = selectedRow.cells[0].innerHTML;
   document.getElementById("category").value = selectedRow.cells[1].innerHTML;
   document.getElementById("date").value = selectedRow.cells[2].innerHTML;
   document.getElementById("level").value = selectedRow.cells[3].innerHTML;
@@ -105,9 +108,26 @@ function updateRecord(formData) {
 //Delete the data
 function onDelete(td) {
   if (confirm('You have chosen to delete this form. Are you sure you want to continue?')) {
-      row = td.parentElement.parentElement;
-      document.getElementById('storeList').deleteRow(row.rowIndex);
-      resetForm();
+
+    row = td.parentElement.parentElement;
+
+    //Delete Request Query 
+    var query = "request=delete&taskID=" + row.id;
+    // + "&category=" + td.cell2.value + "&date=" + td.cell3.value + "&level=" + td.cell4.value;
+    //Code to send delete task request to database
+    $.get(
+      "databaseOperations.php", 
+      query,
+      function(response) //response from database
+      {
+        alert(response);
+        console.log("task deleted");
+      }
+    );
+    
+    document.getElementById('storeList').deleteRow(row.rowIndex);
+    resetForm();
+
   }
 }
 
@@ -143,11 +163,11 @@ function loadTasks(){
         for(let i = 0; i < tasks.length; i++)
         {
           insertNewRecord({
-          "description": tasks[i][0],
-          "category": tasks[i][1],
-          "date": new Date(tasks[i][2]),
-          "level": parseInt(tasks[i][3])
-          });
+          "description": tasks[i][1],
+          "category": tasks[i][2],
+          "date": new Date(tasks[i][3]),
+          "level": parseInt(tasks[i][4])
+          },tasks[i][0]);
         }
     }
   );
