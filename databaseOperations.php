@@ -1,7 +1,7 @@
 <?php
   $host = "127.0.0.1";
   $user = "root";
-  $password = "-----";
+  $password = "----";
   $db = "tasksDB";
   $connection = mysqli_connect($host, $user, $password, $db);
 
@@ -41,7 +41,7 @@
 
     break;
 
-
+    //get all tasks
     case "retrieve":
       $sql = "SELECT * FROM tasksTable";
       $response = mysqli_query($connection, $sql);
@@ -55,7 +55,58 @@
         echo json_encode($tasks);
           
       }
-      break;
+    break;
+
+    //get tasks due today
+    case "retrieve-today":
+      $sql = "SELECT * FROM tasksdb.taskstable WHERE taskDate = '" . $_GET["day"] . "'
+      ORDER BY taskLevel";
+      $response = mysqli_query($connection, $sql);
+      if($response == false)
+        echo "retrieve-today operation FAILED.";
+      else
+      {
+        $tasks = array();
+        while($task = mysqli_fetch_row($response))
+          $tasks[] = $task;
+        echo json_encode($tasks);
+          
+      }
+    break;
+
+    //get tasks due tommorow
+    case "retrieve-tommorow":
+      $sql = "SELECT * FROM tasksTable";
+      $response = mysqli_query($connection, $sql);
+      if($response == false)
+        echo "retrieve operation FAILED.";
+      else
+      {
+        $tasks = array();
+        while($task = mysqli_fetch_row($response))
+          $tasks[] = $task;
+        echo json_encode($tasks);
+          
+      }
+    break;
+
+    //get tasks due next week
+    case "retrieve-nextWeek":
+      $sql = "SELECT * FROM tasksTable";
+      $response = mysqli_query($connection, $sql);
+      if($response == false)
+        echo "retrieve operation FAILED.";
+      else
+      {
+        $tasks = array();
+        while($task = mysqli_fetch_row($response))
+          $tasks[] = $task;
+        echo json_encode($tasks);
+          
+      }
+    break;
+
+
 
     case "delete":
       $sql = "DELETE FROM tasksTable WHERE taskID = '" . $_GET["taskID"] . "'";
@@ -66,7 +117,7 @@
       {
         echo "delete operation SUCCESSFUL.";
       }
-      break;
+    break;
 
     default:
       echo "Error: unknown database request.";

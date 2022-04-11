@@ -68,10 +68,19 @@
 </head>
 
 
-<body id = "todoBody" onload="loadTasks()">
+<body id = "todoBody" onload="loadTasks('default')">
     <header>
         <h1>Welcome to Lightning Task Manager! </h1>
     </header>
+    <div id = "filterDiv">
+        <label id = "filterLabel" for="filter">Filter</label>
+        <select id = "taskFilter" name="filter" onchange="loadTasks(this.value)">
+            <option value="default">Default</option>
+            <option value="today">Due Today</option>
+            <option value="tommorow">Due Tommorw</option>
+            <option value="nextWeek">Due Next Week</option>
+        </select>
+    </div>
     <table>
         <tr>
             <td>
