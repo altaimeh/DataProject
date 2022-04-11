@@ -16,51 +16,60 @@ document.querySelector(".scroll-btn").addEventListener("click", () => {
 });
 
 // Functionalites for dynamic table
-var selectedRow = null
+var selectedRow = null;
 
 function myFunction(e) {
-	event.preventDefault();
-        var formData = readFormData();
-    
-        //Add Request Query 
-        var query = "request=add&description=" + formData["description"] + "&category=" + formData["category"] +
-           "&date=" + formData["date"] + "&level=" + formData["level"];
-        
-      
-        if (selectedRow == null){
-          //Code to send add task request to database
-          $.get(
-            "databaseOperations.php", 
-            query,
-            function(response) //response from database
-            {
-              // alert(response[1]);
-              console.log("task added");
-              insertNewRecord(formData,(JSON.parse(response))[0]);
-            }
-          );
+  event.preventDefault();
+  var formData = readFormData();
 
-		    }
-        else {
-            updateRecord(formData);
+  //Add Request Query
+  var query =
+    "request=add&description=" +
+    formData["description"] +
+    "&category=" +
+    formData["category"] +
+    "&date=" +
+    formData["date"] +
+    "&level=" +
+    formData["level"];
 
-            //Code to send update task request to database
-            $.get(
-              "databaseOperations.php", 
-              query,
-              function(response) //response from database
-              {
-                alert(response);
-              }
-            );
-	    	}
-            resetForm();    
+  if (selectedRow == null) {
+    //Code to send add task request to database
+    $.get(
+      "databaseOperations.php",
+      query,
+      function (
+        response //response from database
+      ) {
+        // alert(response[1]);
+        console.log("task added");
+        insertNewRecord(formData, JSON.parse(response)[0]);
+      }
+    );
+  } else {
+    updateRecord(formData);
+
+    //Code to send update task request to database
+    $.get(
+      "databaseOperations.php",
+      query,
+      function (
+        response //response from database
+      ) {
+        alert(response);
+      }
+    );
+  }
+  resetForm();
 }
 
 // Function for priority level restriction to range from 1-4
 function restrictNumber(input) {
   var regularExpression = /[^1-4]/gi;
-  input.value = input.value.replace(regularExpression, "Priority level can only be 1-4!");
+  input.value = input.value.replace(
+    regularExpression,
+    "Priority level can only be 1-4!"
+  );
 }
 
 // Function to store the data
@@ -75,9 +84,11 @@ function readFormData() {
 
 // Function to insert the data
 function insertNewRecord(data, id) {
-  var table = document.getElementById("storeList").getElementsByTagName('tbody')[0];
+  var table = document
+    .getElementById("storeList")
+    .getElementsByTagName("tbody")[0];
   var newRow = table.insertRow(table.length);
-  newRow.setAttribute("id", id)
+  newRow.setAttribute("id", id);
   cell1 = newRow.insertCell(0);
   cell1.innerHTML = data.description;
   cell2 = newRow.insertCell(1);
@@ -87,13 +98,14 @@ function insertNewRecord(data, id) {
   cell4 = newRow.insertCell(3);
   cell4.innerHTML = data.level;
   cell4 = newRow.insertCell(4);
-      cell4.innerHTML = `<button onClick="onDelete(this)">Delete</button>`;
+  cell4.innerHTML = `<button onClick="onDelete(this)">Delete</button>`;
 }
 
 //Edit the data
 function onEdit(td) {
   selectedRow = td.parentElement.parentElement;
-  document.getElementById("description").innerHTML.value = selectedRow.cells[0].innerHTML;
+  document.getElementById("description").innerHTML.value =
+    selectedRow.cells[0].innerHTML;
   document.getElementById("category").value = selectedRow.cells[1].innerHTML;
   document.getElementById("date").value = selectedRow.cells[2].innerHTML;
   document.getElementById("level").value = selectedRow.cells[3].innerHTML;
@@ -107,70 +119,179 @@ function updateRecord(formData) {
 
 //Delete the data
 function onDelete(td) {
-  if (confirm('You have chosen to delete this form. Are you sure you want to continue?')) {
-
+  if (
+    confirm(
+      "You have chosen to delete this form. Are you sure you want to continue?"
+    )
+  ) {
     row = td.parentElement.parentElement;
 
-    //Delete Request Query 
+    //Delete Request Query
     var query = "request=delete&taskID=" + row.id;
     // + "&category=" + td.cell2.value + "&date=" + td.cell3.value + "&level=" + td.cell4.value;
     //Code to send delete task request to database
     $.get(
-      "databaseOperations.php", 
+      "databaseOperations.php",
       query,
-      function(response) //response from database
-      {
+      function (
+        response //response from database
+      ) {
         alert(response);
         console.log("task deleted");
       }
     );
-    
-    document.getElementById('storeList').deleteRow(row.rowIndex);
-    resetForm();
 
+    document.getElementById("storeList").deleteRow(row.rowIndex);
+    resetForm();
   }
 }
 
 //Reset the data
 function resetForm() {
-  document.getElementById("description").value = '';
-  document.getElementById("category").value = '';
-  document.getElementById("date").value = '';
-  document.getElementById("level").value = '';
+  document.getElementById("description").value = "";
+  document.getElementById("category").value = "";
+  document.getElementById("date").value = "";
+  document.getElementById("level").value = "";
   selectedRow = null;
 }
 
+//clears the table
+function clearTable() {
+  var thRowCount = 1;
+  var table = document.getElementById("storeList");
+  var rowCount = table.rows.length;
+  for (var i = thRowCount; i < rowCount; i++) {
+    table.deleteRow(thRowCount);
+  }
+}
+
 //function to load tasks from database
-function loadTasks(){
+function loadTasks(option) {
   console.log("loading tasks");
-  
-  //sql query option
-  var query = "request=retrieve";
 
+  if (option == "default") {
+    //sql query option
+    var query = "request=retrieve";
+    //array to store array sent from database(to use outside of get function)
+    var tasks;
 
-  //array to store array sent from database(to use outside of get function)
-  var tasks;
-
-
-  $.get(
-    "databaseOperations.php", 
-    query,
-    function(response) //response from database
-    {
+    $.get(
+      "databaseOperations.php",
+      query,
+      function (
+        response //response from database
+      ) {
         tasks = JSON.parse(response);
         console.dir(tasks);
 
-        for(let i = 0; i < tasks.length; i++)
-        {
-          insertNewRecord({
-          "description": tasks[i][1],
-          "category": tasks[i][2],
-          "date": new Date(tasks[i][3]),
-          "level": parseInt(tasks[i][4])
-          },tasks[i][0]);
+        for (let i = 0; i < tasks.length; i++) {
+          insertNewRecord(
+            {
+              description: tasks[i][1],
+              category: tasks[i][2],
+              date: new Date(tasks[i][3]),
+              level: parseInt(tasks[i][4]),
+            },
+            tasks[i][0]
+          );
         }
-    }
-  );
+      }
+    );
+  } else if (option == "today") {
+    //clear the table
+    clearTable();
 
-console.log("tasks loaded");
+    //sql query option
+    var query = "request=retrieve-today&day="+ (new Date());
+    //array to store array sent from database(to use outside of get function)
+    var tasks;
+
+    $.get(
+      "databaseOperations.php",
+      query,
+      function (
+        response //response from database
+      ) {
+        tasks = JSON.parse(response);
+        console.dir(tasks);
+
+        for (let i = 0; i < tasks.length; i++) {
+          insertNewRecord(
+            {
+              description: tasks[i][1],
+              category: tasks[i][2],
+              date: new Date(tasks[i][3]),
+              level: parseInt(tasks[i][4]),
+            },
+            tasks[i][0]
+          );
+        }
+      }
+    );
+  } else if (option == "tommorow") {
+    //clear the table
+    clearTable();
+
+    //sql query option
+    var query = "request=retrieve-tommorow";
+    //array to store array sent from database(to use outside of get function)
+    var tasks;
+
+    $.get(
+      "databaseOperations.php",
+      query,
+      function (
+        response //response from database
+      ) {
+        tasks = JSON.parse(response);
+        console.dir(tasks);
+
+        for (let i = 0; i < tasks.length; i++) {
+          insertNewRecord(
+            {
+              description: tasks[i][1],
+              category: tasks[i][2],
+              date: new Date(tasks[i][3]),
+              level: parseInt(tasks[i][4]),
+            },
+            tasks[i][0]
+          );
+        }
+      }
+    );
+  } else if (option == "nextWeek") {
+    
+    //clear the table
+    clearTable();
+
+    //sql query option
+    var query = "request=retrieve-nextWeek";
+    //array to store array sent from database(to use outside of get function)
+    var tasks;
+
+    $.get(
+      "databaseOperations.php",
+      query,
+      function (
+        response //response from database
+      ) {
+        tasks = JSON.parse(response);
+        console.dir(tasks);
+
+        for (let i = 0; i < tasks.length; i++) {
+          insertNewRecord(
+            {
+              description: tasks[i][1],
+              category: tasks[i][2],
+              date: new Date(tasks[i][3]),
+              level: parseInt(tasks[i][4]),
+            },
+            tasks[i][0]
+          );
+        }
+      }
+    );
+  }
+
+  console.log("tasks loaded");
 }
