@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of queries and ERD</title>
+</head>
+<body>
+    <!-- Group members -->
+    <h1>Group Members</h1>
+    <h3>Mohammed Ali</h3>
+    <h3>Al-Taimee Hassan</h3>
+    <h3>Muneeb Khan</h3>
+    <h3>Tasdyque Syed</h3>
+
+    <!-- list of queries -->
+    <!-- database.sql -->
+    <h1>List of queries and ERD</h1>
+    <h2>Queries</h2>
+    <p></p>DROP SCHEMA IF EXISTS `tasksDB`;<br>
+    CREATE SCHEMA IF NOT EXISTS `tasksDB` DEFAULT CHARACTER SET utf8;<br>
+    USE `tasksDB`;<br>
+    DROP TABLE IF EXISTS `tasksTable`;<br>
+    CREATE TABLE `tasksTable` (<br>
+      `taskID` int(3) NOT NULL AUTO_INCREMENT,<br>
+      `taskDescription` varchar(100) NOT NULL,<br>
+      `category` varchar(100) NOT NULL,<br>
+      `taskDate` varchar(10) NOT NULL,<br>
+      `taskLevel` varchar(4) NOT NULL,<br>
+      PRIMARY KEY (taskID)<br>
+    );</p>
+<!-- databaseOperations.php -->
+<h2>php content</h2>
+<p>?php<br>
+    $host = "127.0.0.1";<br>
+    $user = "root";<br>
+    $password = "----";<br>
+    $db = "tasksDB";<br>
+    $connection = mysqli_connect($host, $user, $password, $db);<br>
+  
+    switch ($_GET['request'])<br>
+    {<br>
+      case "add":<br>
+      //   $sql = "SELECT * FROM tasks WHERE taskID ='" . <br>
+      //     $_GET['taskID'] . "'";<br>
+      
+          $sql = "INSERT INTO tasksTable(taskDescription,category,taskDate,taskLevel) <br>
+          VALUES ('" . $_GET["description"] . "', '" . <br>
+                       $_GET["category"] . "', '" . <br>
+                       $_GET["date"] . "', '" . <br>
+                       $_GET["level"] .  <br>
+                  "')";<br>
+          $response= mysqli_query($connection, $sql);<br>
+          if($response== false)<br>
+            echo "Add operation FAILED.";<br>
+          else<br>
+          {<br>
+            $sql = "SELECT * FROM tasksTable<br>
+            ORDER BY taskID DESC<br>
+            LIMIT 0,1";<br>
+            $response= mysqli_query($connection, $sql);<br>
+            if($response == false)<br>
+            {<br>
+              echo "Add Sucessfull, new addition retrieval FAILED.";<br>
+            }<br>
+            else<br>
+            {<br>
+              $tasks = array();<br>
+              $tasks[] = mysqli_fetch_row($response);<br>
+              echo json_encode($tasks);<br>
+            }<br>
+          }<br>
+      break;<br>
+  
+      //get all tasks<br>
+      case "retrieve":<br>
+        $sql = "SELECT * FROM tasksTable";<br>
+        $response = mysqli_query($connection, $sql);<br>
+        if($response == false)<br>
+          echo "retrieve operation FAILED.";<br>
+        else<br>
+        {<br>
+          $tasks = array();<br>
+          while($task = mysqli_fetch_row($response))<br>
+            $tasks[] = $task;<br>
+          echo json_encode($tasks);<br>
+          <br>
+        }<br>
+      break;<br>
+      <br>
+      //get tasks due today<br>
+      case "retrieve-today":<br>
+        $sql = "SELECT * FROM tasksdb.taskstable WHERE taskDate = '" . $_GET["day"] . "'<br>
+        ORDER BY taskLevel";<br>
+        $response = mysqli_query($connection, $sql);<br>
+        if($response == false)<br>
+          echo "retrieve-today operation FAILED.";<br>
+        else<br>
+        {<br>
+          $tasks = array();<br>
+          while($task = mysqli_fetch_row($response))<br>
+            $tasks[] = $task;<br>
+          echo json_encode($tasks);<br>
+          <br>
+        }<br>
+      break;<br>
+      <br>
+      //get tasks due tommorow<br>
+      case "retrieve-tommorow":<br>
+        $sql = "SELECT * FROM tasksTable";<br>
+        $response = mysqli_query($connection, $sql);<br>
+        if($response == false)<br>
+          echo "retrieve operation FAILED.";<br>
+        else<br>
+        {<br>
+          $tasks = array();<br>
+          while($task = mysqli_fetch_row($response))<br>
+            $tasks[] = $task;<br>
+          echo json_encode($tasks);<br>
+          <br>
+        }<br>
+      break;<br>
+      <br>
+      //get tasks due next week<br>
+      case "retrieve-nextWeek":<br>
+        $sql = "SELECT * FROM tasksTable";<br>
+        $response = mysqli_query($connection, $sql);<br>
+        if($response == false)<br>
+          echo "retrieve operation FAILED.";<br>
+        else<br>
+        {<br>
+          $tasks = array();<br>
+          while($task = mysqli_fetch_row($response))<br>
+            $tasks[] = $task;<br>
+          echo json_encode($tasks);<br>
+          <br>
+        }<br>
+      break;<br>
+      case "delete":<br>
+        $sql = "DELETE FROM tasksTable WHERE taskID = '" . $_GET["taskID"] . "'";<br>
+        $response = mysqli_query($connection, $sql);<br>
+        if($response == false)<br>
+          echo "delete operation FAILED.";<br>
+        else<br>
+        {<br>
+          echo "delete operation SUCCESSFUL.";<br>
+        }<br>
+      break;<br>
+      <br>
+      default:<br>
+        echo "Error: unknown database request.";<br>
+        <br>
+    }<br>
+    <br>
+  ?><br>
+  </p>
+  <!-- ERD image -->
+  <h2>ERD</h2>
+<img src="erd.png" alt="ERD" width="325" height="250">
+</body>
+<!-- align image to center -->
+<style>
+    img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    }
+</style>
+</html>
