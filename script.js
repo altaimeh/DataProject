@@ -29,9 +29,13 @@ function myFunction(e) {
     "&category=" +
     formData["category"] +
     "&date=" +
-    formData["date"] +
+    formData["date"].substring(5,7) + ", " + formData["date"].substring(8) + ", " +
+    formData["date"].substring(0,4) +
     "&level=" +
     formData["level"];
+
+    // console.log(formData["date"].substring(5,7) + ", " + formData["date"].substring(8) + ", " +
+    // formData["date"].substring(0,4));
 
   if (selectedRow == null) {
     //Code to send add task request to database
@@ -43,7 +47,7 @@ function myFunction(e) {
       ) {
         // alert(response[1]);
         console.log("task added");
-        insertNewRecord(formData, JSON.parse(response)[0]);
+        insertNewRecord(formData, JSON.parse(response)[0][0]);
       }
     );
   } else {
@@ -167,6 +171,8 @@ function clearTable() {
 
 //function to load tasks from database
 function loadTasks(option) {
+  //clear the table
+  clearTable();
   console.log("loading tasks");
 
   if (option == "default") {
@@ -189,7 +195,7 @@ function loadTasks(option) {
             {
               description: tasks[i][1],
               category: tasks[i][2],
-              date: new Date(tasks[i][3]),
+              date: tasks[i][3],
               level: parseInt(tasks[i][4]),
             },
             tasks[i][0]
@@ -197,12 +203,24 @@ function loadTasks(option) {
         }
       }
     );
-  } else if (option == "today") {
+  } 
+  else if (option == "today") {
     //clear the table
     clearTable();
 
     //sql query option
-    var query = "request=retrieve-today&day="+ (new Date());
+    var today = new Date();
+
+    if(today.getMonth() <= 9)
+    {
+      var query = "request=retrieve-today&day="+ today.getFullYear() + "-0" + (today.getMonth()+1) + "-" +
+                  today.getDate();
+    }
+    else{
+      var query = "request=retrieve-today&day="+ today.getFullYear() + "-" + (today.getMonth()+1) + "-" +
+                  today.getDate();
+    }
+    
     //array to store array sent from database(to use outside of get function)
     var tasks;
 
@@ -220,7 +238,7 @@ function loadTasks(option) {
             {
               description: tasks[i][1],
               category: tasks[i][2],
-              date: new Date(tasks[i][3]),
+              date: tasks[i][3],
               level: parseInt(tasks[i][4]),
             },
             tasks[i][0]
@@ -232,9 +250,20 @@ function loadTasks(option) {
     //clear the table
     clearTable();
 
-    //sql query option
-    var query = "request=retrieve-tommorow";
-    //array to store array sent from database(to use outside of get function)
+     //sql query option
+     var tommorow = new Date();
+     tommorow.setDate((tommorow.getDate()+1)%31);
+
+     if(tommorow.getMonth() <= 9)
+     {
+       var query = "request=retrieve-tommorow&day="+ tommorow.getFullYear() + "-0" + (tommorow.getMonth()+1) + "-" +
+                   tommorow.getDate();
+     }
+     else{
+      var query = "request=retrieve-tommorow&day="+ tommorow.getFullYear() + "-" + (tommorow.getMonth()+1) + "-" +
+      tommorow.getDate();
+     }
+     
     var tasks;
 
     $.get(
@@ -251,7 +280,7 @@ function loadTasks(option) {
             {
               description: tasks[i][1],
               category: tasks[i][2],
-              date: new Date(tasks[i][3]),
+              date: tasks[i][3],
               level: parseInt(tasks[i][4]),
             },
             tasks[i][0]
@@ -259,11 +288,13 @@ function loadTasks(option) {
         }
       }
     );
+
+    
   } else if (option == "nextWeek") {
     
     //clear the table
     clearTable();
-
+    
     //sql query option
     var query = "request=retrieve-nextWeek";
     //array to store array sent from database(to use outside of get function)
@@ -283,7 +314,52 @@ function loadTasks(option) {
             {
               description: tasks[i][1],
               category: tasks[i][2],
-              date: new Date(tasks[i][3]),
+              date: tasks[i][3],
+              level: parseInt(tasks[i][4]),
+            },
+            tasks[i][0]
+          );
+        }
+      }
+    );
+  } else if (option == "chooseweek") {
+    
+    var start = new Date(prompt("Choose starting date for desired week(mm/dd/yyyy):"));
+    
+    //clear the table
+    clearTable();
+
+    //sql query option
+    if(start.getMonth() <= 9)
+    {
+      var query = "request=retrieve-chooseWeek&start=" + start.getFullYear() + "-0" + (start.getMonth()+1) + "-" +
+    start.getDate();;
+    }
+    else
+    {
+      var query = "request=retrieve-chooseWeek&start=" + start.getFullYear() + "-" + (start.getMonth()+1) + "-" +
+    start.getDate();;
+    }
+    
+  
+    //array to store array sent from database(to use outside of get function)
+    var tasks;
+
+    $.get(
+      "databaseOperations.php",
+      query,
+      function (
+        response //response from database
+      ) {
+        tasks = JSON.parse(response);
+        console.dir(tasks);
+
+        for (let i = 0; i < tasks.length; i++) {
+          insertNewRecord(
+            {
+              description: tasks[i][1],
+              category: tasks[i][2],
+              date: tasks[i][3],
               level: parseInt(tasks[i][4]),
             },
             tasks[i][0]
@@ -292,6 +368,29 @@ function loadTasks(option) {
       }
     );
   }
+  
+  
 
   console.log("tasks loaded");
+}
+
+
+function deleteCategory(e){
+
+  var category = document.getElementById("deleteCategory").value;
+
+  var query = "request=delete-category&category=" + category;
+  
+  $.get(
+    "databaseOperations.php",
+    query,
+    function (
+      response //response from database
+    ) {
+      alert(response);
+    }
+  );
+
+  clearTable();
+  loadTasks("default");
 }

@@ -7,7 +7,7 @@ h1 {
 body {
   background-image: url('yellowBackground.jpg');
   background-repeat: no-repeat;
-  background-attachment:scroll;
+  background-attachment: fixed;
   background-size: cover;
 }
 
@@ -301,5 +301,13 @@ button:active{
   justify-content: right;
   flex-direction: column;
   width:10%;
+}
+
+#categoryDeleteDiv{
+  display: flex;
+  justify-content: right;
+  flex-direction: column;
+  width:10%;
+  margin-top: 1%;
 }
 
